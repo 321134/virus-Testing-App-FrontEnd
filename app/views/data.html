@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div>
+      <h1 id="title">Upload a File</h1>
+      <form name="fileUploadForm" ng-submit="uploadFile()">
+        <div class="custom-file mb-3">
+          <input type="file" ngf-select ng-model="file" name="file" id="file" class="custom-file-input" ng-class="{ 'has-error' : fileUploadForm.file.$error.required}" required>
+        </div>
+        <br>
+        <input type="submit" value="Submit" class="btn btn-primary">
+        <br><br>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row row-content">
+    <div ng-if="filesExist">
+      <section class="col-xs-4 col-sm-4 col-md-3" ng-repeat="doc in documents">
+        <div class="mainflip">
+          <div class="frontside">
+            <div class="card">
+              <div class="card-body text-center">
+                <p><img class=" img-fluid" src="images/file-icon.png" alt="file icon"></p>
+
+                <p class="card-text">{{doc.filename}}</p>
+                <a href="http://localhost:3000/files/download/{{doc.filename}}" class="btn btn-primary btn-sm">Download File</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
