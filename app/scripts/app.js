@@ -20,7 +20,7 @@ angular
     'ngDialog',
     'ngFileUpload'
   ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider
     .state('app', {
         url:'/',
@@ -49,4 +49,5 @@ angular
     });
 
     $urlRouterProvider.otherwise('/');
+    $httpProvider.interceptors.push('APIInterceptor');
   });

@@ -14,23 +14,25 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container"  ng-if="filesExist" id="file-display">
   <div class="row row-content">
-    <div ng-if="filesExist">
-      <section class="col-xs-4 col-sm-4 col-md-3" ng-repeat="doc in documents">
-        <div class="mainflip">
+    <hr>
+      <div class="col-xs-4 col-sm-4 col-md-3" ng-repeat="doc in documents" id="row-list">
           <div class="frontside">
             <div class="card">
-              <div class="card-body text-center">
-                <p><img class=" img-fluid" src="images/file-icon.png" alt="file icon"></p>
-
-                <p class="card-text">{{doc.filename}}</p>
-                <a href="http://localhost:3000/files/download/{{doc.filename}}" class="btn btn-primary btn-sm">Download File</a>
+              <div class="card-body">
+                <div class="col-sm-3">
+                <a href="http://localhost:3000/files/download/{{doc.filename}}"><img class=" img-fluid" src="images/file-icon.png" alt="file icon"></a>
+                </div>
+                <div class="col-sm-9">
+                <p></p>
+                <p class="card-text" id='filename' style='text-overflow = ellipsis'>{{doc.filename}}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+          <hr>
+      </div>
+      <hr>
   </div>
 </div>

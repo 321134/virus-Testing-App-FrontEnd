@@ -45,6 +45,6 @@ angular.module('frontEndApp')
 
   $scope.downloadFile = function (doc) {
     console.log('Document to be downloaded: ' + doc);
-    DataFactory.downloadFileFromDB(doc);
+    
   };
 }]);

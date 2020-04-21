@@ -20,7 +20,7 @@ angular.module('frontEndApp')
     Upload.upload({
       url: baseURL + "files/upload", //webAPI exposed to upload the file
       data:{file:file}, //pass file as data, should be user ng-model
-      headers:{'x-access-token' : creds.token}
+      // headers:{'x-access-token' : creds.token}
     }).then(function (resp) { //upload function returns a promise
       if(resp.status == 200){ //validate success
         console.log("Successful")
@@ -43,16 +43,16 @@ angular.module('frontEndApp')
     dataFac.downloadFileFromDB = function (doc) {
       $resource(baseURL + 'files/download/:filename', {filename: doc}, null).get(
         function (response) {
-            console.log(response);
+            console.log(typeof response);
         },
         function (response) {
           console.log(response);
         }
       );
     };
-
   return dataFac;
 }])
+
 .factory('AuthFactory', ['$state', '$resource', 'baseURL', 'ngDialog', '$http', '$localStorage', function($state, $resource, baseURL, ngDialog, $http, $localStorage){
   var authFac = {};
   var TOKEN_KEY = 'Token';
@@ -74,7 +74,7 @@ angular.module('frontEndApp')
     username = credentials.username;
     authToken = credentials.token;
     // Set the token as header for your requests!
-    $http.defaults.headers.common['x-access-token'] = authToken;
+    // $http.defaults.headers.common['x-access-token'] = authToken;
   }
 
   // remove all infomation of credentials
@@ -82,12 +82,11 @@ angular.module('frontEndApp')
     authToken = undefined;
     username = '';
     isAuthenticated = false;
-    $http.defaults.headers.common['x-access-token'] = authToken;
+    // $http.defaults.headers.common['x-access-token'] = authToken;
     $localStorage.remove(TOKEN_KEY);
   }
 
   authFac.login = function(loginData) {
-
     $resource(baseURL + "users/login")
     .save(loginData,
       function(response) {
@@ -137,5 +136,17 @@ angular.module('frontEndApp')
     getObject: function (key, defaultValue) {
       return JSON.parse($window.localStorage[key] || defaultValue);
     }
-  }
-}]);
+  };
+  }])
+
+  .factory('APIInterceptor', ['$localStorage', function($localStorage) {
+    var apiInterceptor = {};
+    apiInterceptor.request = function(config) {
+      var access_token = $localStorage.getObject('Token').token;
+      if(access_token) {
+        config.headers['x-access-token'] = access_token;
+      }
+      return config;
+    };
+    return apiInterceptor;
+  }]);
